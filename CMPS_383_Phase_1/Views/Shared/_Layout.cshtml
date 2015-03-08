@@ -1,0 +1,167 @@
+﻿
+
+<!DOCTYPE html>
+<style>
+    body {
+        padding: 40px 0px;
+    }
+
+    #search {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+        -webkit-transform: translate(0px, -100%) scale(0, 0);
+        -moz-transform: translate(0px, -100%) scale(0, 0);
+        -o-transform: translate(0px, -100%) scale(0, 0);
+        -ms-transform: translate(0px, -100%) scale(0, 0);
+        transform: translate(0px, -100%) scale(0, 0);
+        opacity: 0;
+    }
+
+        #search.open {
+            -webkit-transform: translate(0px, 0px) scale(1, 1);
+            -moz-transform: translate(0px, 0px) scale(1, 1);
+            -o-transform: translate(0px, 0px) scale(1, 1);
+            -ms-transform: translate(0px, 0px) scale(1, 1);
+            transform: translate(0px, 0px) scale(1, 1);
+            opacity: 1;
+        }
+
+        #search input[type="search"] {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            color: rgb(255, 255, 255);
+            background: rgba(0, 0, 0, 0);
+            font-size: 60px;
+            font-weight: 300;
+            text-align: center;
+            border: 0px;
+            margin: 0px auto;
+            margin-top: -51px;
+            padding-left: 30px;
+            padding-right: 30px;
+            outline: none;
+        }
+
+        #search .btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: 61px;
+            margin-left: -45px;
+        }
+
+        #search .close {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            color: #fff;
+            background-color: #428bca;
+            border-color: #357ebd;
+            opacity: 1;
+            padding: 10px 17px;
+            font-size: 27px;
+        }
+</style>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Time Clock Application</title>
+    <meta name="description" content="My ASP.NET Application" />
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href=@Url.Content("~/Content/css/flipclock.css")>
+    <script src="@Url.Content("~/Scripts/jquery-2.1.3.js")"></script>
+
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @if (Request.IsAuthenticated)
+            {
+                @Html.ActionLink("TimeEntry", "Index", "TimeEntry", null, new {@class = "navbar-brand"})
+            }
+            else
+            {
+                @Html.ActionLink("TimeEntry", "Login", "User", null, new {@class = "navbar-brand"})
+            }
+
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Time Summary", "BackEnd", "TimeEntry")</li>
+
+                @if (User.IsInRole("1"))
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Controls<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Users", "Index", "User")</li>
+                            <li>@Html.ActionLink("All Times", "TimeSummary", "TimeEntry")</li>
+                            <li><a href="#search">Search</a></li>
+                        </ul>
+                    </li>
+
+                }
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (Request.IsAuthenticated)
+                {
+                    <li> @Html.ActionLink("Log Out", "Logout", "User")</li>
+                }
+            </ul>
+
+        </div>
+    </div>
+</div>
+    <div id="search">
+        <button type="button" class="close" style="padding-top: 35px">x</button>
+        @using (Html.BeginForm("Search", "User", FormMethod.Get))
+        {
+            @Html.TextBox("searchString", null, new { @placeholder = "Search by First Name", @style = "height:92px ;width:1200px;padding-left: 6px ", @type = "search" })
+
+            <button type="submit" class="btn btn-primary">Search </button>
+        }
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    $(function () {
+        $('a[href="#search"]').on('click', function (event) {
+            event.preventDefault();
+            $('#search').addClass('open');
+            $('#search > form > input[type="search"]').focus();
+        });
+
+        $('#search, #search button.close').on('click keyup', function(event) {
+            if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                $(this).removeClass('open');
+            }
+        });
+    });
+</script>

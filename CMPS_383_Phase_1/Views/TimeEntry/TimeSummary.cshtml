@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CMPS_383_Phase_1.Models.TimeEntry>
+
+@{
+    ViewBag.Title = "TimeSummary";
+}
+
+<h2>All Times</h2>
+<p>
+    <button onclick="location.href='@Url.Action("Create", "TimeEntry")'" class="btn btn-success">Create New</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeIn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOut)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+      
+      DateTime timeIn = Convert.ToDateTime(item.TimeIn);
+      DateTime timeOut = Convert.ToDateTime(item.TimeOut);
+      
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.UserName)
+        </td>
+        <td>
+            @Html.DisplayName(Convert.ToString(timeIn.ToUniversalTime()))
+        </td>
+        <td>
+            @*Hide field if time out is null*@
+            @if (item.TimeOut == null)
+            {
+                @Html.Display("_")
+            }
+            else
+            {
+                @Html.DisplayName(Convert.ToString(timeOut.ToUniversalTime()))
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TimeEntryId }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.TimeEntryId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

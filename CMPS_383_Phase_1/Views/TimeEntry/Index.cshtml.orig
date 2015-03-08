@@ -1,0 +1,91 @@
+﻿@model IEnumerable<CMPS_383_Phase_1.Models.Users>
+
+@{
+    ViewBag.Title = "Index";
+    
+}
+<center>
+    <br />
+<<<<<<< HEAD
+    <h2>Time Summary</h2>
+    <br />
+    
+    <table>
+        <tr>
+            <td align="right">
+                <div class="clock"></div>
+            </td>
+        </tr>
+    </table>
+    
+
+    <br />
+
+    @using (Html.BeginForm("ClockIn", "TimeEntry"))
+    {
+
+        <input type="submit" value="Clock In" onclick="func" class="btn btn-info" style="width:20em; height:10em" />
+=======
+    <h2>
+        Welcome:
+        @Context.User.Identity.Name
+    </h2>
+    <h4 ></h4>
+    <br/>
+    @{var thing = ViewBag.ClockedStatus;}
+    @if (!thing)
+    {
+        
+        <h3>You are currently clocked out.</h3>
+        <br />
+        <br />
+        
+        using (Html.BeginForm("ClockIn", "TimeEntry"))
+        {
+
+            <input type="submit" value="Clock In" class="btn btn-info" style="width:20em; height:5em; font-size:30px" />
+>>>>>>> origin/master
+
+    }
+
+    <br />
+
+<<<<<<< HEAD
+    @using (Html.BeginForm("ClockOut", "TimeEntry"))
+    {
+
+        <input type="submit" value="Clock Out" class="btn btn-info" style="width:20em; height:10em" />
+
+    }
+</center>
+
+@section scripts {
+<script src=@Url.Content("~/Scripts/flipclock.js")></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var clock = $('.clock').FlipClock({
+            clockFace: 'TwelveHourClock'
+        });
+    });
+</script>
+}
+=======
+    }
+
+        
+    @if (thing)
+    {
+
+        <h3>You are currently clocked in.</h3>
+        <br />
+        <br />
+
+        using (Html.BeginForm("ClockOut", "TimeEntry"))
+        {
+
+            <input type="submit" value="Clock Out" class="btn btn-info" style="width:20em; height:5em; font-size:30px" />
+
+        }
+    }
+</center>
+>>>>>>> origin/master

@@ -1,0 +1,34 @@
+﻿@model CMPS_383_Phase_1.Models.Users
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "Failed Login attempt, verify credentials.");
+    <div>
+        <fieldset>
+            
+            <div>@Html.LabelFor(u => u.UserName)</div>
+            <div>
+                @Html.TextBoxFor(u => u.UserName)
+                @Html.ValidationMessageFor(u => u.UserName)
+            </div>
+
+            <div>@Html.LabelFor(u => u.Password)</div>
+            <div>
+                @Html.PasswordFor(u => u.Password)
+                @Html.ValidationMessageFor(u => u.Password)
+            </div>
+            <br />
+            <input type="Submit" value="Log in" class="btn btn-info" />
+        </fieldset>
+    </div>
+}
+
+

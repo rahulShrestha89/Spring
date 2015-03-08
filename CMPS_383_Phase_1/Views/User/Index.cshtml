@@ -1,0 +1,55 @@
+﻿
+
+@model IEnumerable<CMPS_383_Phase_1.Models.Users>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<h2>User Listing</h2>
+
+<p>
+    <button onclick="location.href='@Url.Action("Create", "User")'" class="btn btn-success">Create New</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Role.RoleName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr >
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.RoleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, new { @class = "btn btn-info" })
+
+            @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>

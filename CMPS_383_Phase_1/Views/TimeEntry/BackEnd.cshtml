@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CMPS_383_Phase_1.Models.TimeEntry>
+
+@{
+    ViewBag.Title = "Time Summary";
+}
+
+
+
+    <center>
+        
+        <h2>
+            Welcome:
+            @Context.User.Identity.Name
+
+        </h2>
+        <h4>
+            My Time Entries<br />
+        </h4> 
+        
+
+    </center>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Time In")
+        </th>
+        <th>
+            @Html.DisplayName("Time Out")
+        </th>
+        <th>
+            @Html.DisplayName("Hours Worked")
+        </th>
+    </tr>
+
+    @foreach (var clock in Model)
+    {
+
+        if (User.Identity.Name == Convert.ToString(clock.User.UserName))
+        {
+           
+            <tr>
+                <td>
+                    @{
+                        DateTime timeIn = Convert.ToDateTime(clock.TimeIn);
+                        DateTime timeOut = Convert.ToDateTime(clock.TimeOut);
+                        TimeSpan amount = timeOut - timeIn;
+                        
+                    }
+                    @Html.DisplayName(Convert.ToString(timeIn.ToLocalTime()))
+                </td>
+                <td>
+                    @*Hide field if time out is null*@
+                    @if (clock.TimeOut == null)
+                    {
+                        @Html.Display("_")
+                    }
+                    else
+                    {
+                       
+                        @Html.DisplayName(Convert.ToString(timeOut.ToLocalTime()))
+                    }
+                    
+                </td>
+                <td>
+                    @*Hide field if time out is null*@
+                    @if (clock.TimeOut == null)
+                    {
+                        @Html.Display("_")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => amount)
+                    }
+                    
+                </td>
+
+            </tr>
+
+        }
+
+    }
+
+</table>
+
+    @if (User.IsInRole("1"))
+    {
+        <center>
+            <h4>
+                
+                <button onclick="location.href='@Url.Action("TimeSummary", "TimeEntry")'" class="btn btn-primary">Time Controls </button>
+                <button onclick="location.href='@Url.Action("Index", "User")'" class="btn btn-warning">User Controls </button>
+            </h4>
+        </center>
+
+    }
+
+
+
+
+

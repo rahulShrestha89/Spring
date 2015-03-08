@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CMPS_383_Phase_1.Models.Users>
+
+@{
+    ViewBag.Title = "Search Results";
+}
+
+<h2>Search Results</h2>
+
+<p>
+    <button onclick="location.href='@Url.Action("Create", "User")'" class="btn btn-success">Create New</button>
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.UserId}, new {@class = "btn btn-info"})
+
+                @Html.ActionLink("Delete", "Delete", new {id = item.UserId}, new {@class = "btn btn-danger"})
+
+                @Html.ActionLink("Time Details", "BackEnd","TimeEntry", new { id = item.UserId }, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+</table>
